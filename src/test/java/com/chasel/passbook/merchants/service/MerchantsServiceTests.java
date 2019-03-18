@@ -7,6 +7,7 @@ import com.chasel.passbook.merchants.vo.CreateMerchantsRequest;
 import com.chasel.passbook.merchants.vo.CreateMerchantsResponse;
 import com.chasel.passbook.merchants.vo.PassTemplate;
 import com.chasel.passbook.merchants.vo.Response;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -85,17 +86,16 @@ public class MerchantsServiceTests {
     }
 
     @Test
-    @Transactional
     public void testDropPassTemplate() {
         PassTemplate passTemplate = new PassTemplate();
         passTemplate.setId(testMerchants.getId());
-        passTemplate.setTitle("test");
+        passTemplate.setTitle("test-" + RandomStringUtils.randomNumeric(200));
         passTemplate.setSummary("summary test");
         passTemplate.setDesc("desc test");
         passTemplate.setLimit(10000L);
         passTemplate.setHasToken(false);
         passTemplate.setBackground(2);
-        passTemplate.setStart(new Date());
+        passTemplate.setStart(DateUtils.addDays(new Date(), -10));
         passTemplate.setEnd(DateUtils.addDays(new Date(), 10));
 
         Response response = merchantsService.dropPassTemplate(passTemplate);
